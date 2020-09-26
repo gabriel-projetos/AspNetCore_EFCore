@@ -37,16 +37,15 @@ namespace EFCore.WebApi.Controllers
         public ActionResult GetAddRange()
         {
             int mock = 0;
-            _context.AddRange(
-                new Heroi { Nome = $"Gabriel{mock++}"},
+            _context.AddRange
+                (new Heroi { Nome = $"Gabriel{mock++}"},
                 new Heroi { Nome = $"Gabriel{mock++}" },
                 new Heroi { Nome = $"Gabriel{mock++}" },
                 new Heroi { Nome = $"Gabriel{mock++}" },
                 new Heroi { Nome = $"Gabriel{mock++}" },
                 new Heroi { Nome = $"Gabriel{mock++}" },
                 new Heroi { Nome = $"Gabriel{mock++}" },
-                new Heroi { Nome = $"Gabriel{mock++}" }
-            );
+                new Heroi { Nome = $"Gabriel{mock++}" });
 
             _context.SaveChanges();
 
@@ -125,6 +124,7 @@ namespace EFCore.WebApi.Controllers
 
             //Usando like
             var listHeroi = _context.Herois.
+                //Utilizando funções de banco Like
                 Where(heroi => EF.Functions.Like(heroi.Nome, $"%{nome}%"))
                 .OrderBy(h => h.Id)
                 .LastOrDefault();                

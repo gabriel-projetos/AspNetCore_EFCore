@@ -6,6 +6,7 @@ using EFCore.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,11 +33,21 @@ namespace EFCore.WebApi
             services.AddDbContext<HeroiContext>(options => 
             {
                 //Dessa eu estou recebendo options no construtor do heroiContext, então precisamos instanciar ele para ter acesso
-                //Grava log dos execs do sql pelo linq na saida do console
+                //Grava log dos execs do sql pelo linq na saida do console.
                 options.UseLoggerFactory(MyLoggerFactory)
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddControllers();
+
+            //Serviço(Interface) e Implementação
+            //Dado a necessidade de alguem que implementou a interface, mande uma classe EFCoreRepositorio
+            services.AddScoped<IEFCoreRepositorio, EFCoreRepositorio>();
+
+            //Microsoft.AspNetCore.Mvc.NewtonsoftJson
+            //Pra conseguir para o lopping infinito, para igonorar os loppings
+            services.AddControllers()
+                    .AddNewtonsoftJson(
+                        opt => opt.SerializerSettings.ReferenceLoopHandling =
+                            Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -35,7 +35,7 @@ namespace EFCore.Repositorio
             modelBuilder.Entity<HeroiBatalha>(entity => 
             {
                 //Tem chave? a chave composta é composta de BatalhaId e HeroiId, mas poderia ser varias
-                entity.HasKey(e => new { e.BatalhaId, e.HeroId });
+                entity.HasKey(e => new { e.BatalhaId, e.HeroiId });
             });
         }
 

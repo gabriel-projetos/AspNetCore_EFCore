@@ -4,14 +4,16 @@ using EFCore.Repositorio;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCore.Repositorio.Migrations
 {
     [DbContext(typeof(HeroiContext))]
-    partial class HeroiContextModelSnapshot : ModelSnapshot
+    [Migration("20200907020109_NovoCampoEmIdentidadeSecreta")]
+    partial class NovoCampoEmIdentidadeSecreta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,10 +85,13 @@ namespace EFCore.Repositorio.Migrations
                     b.Property<int>("BatalhaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HeroiId")
+                    b.Property<int>("HeroId")
                         .HasColumnType("int");
 
-                    b.HasKey("BatalhaId", "HeroiId");
+                    b.Property<int?>("HeroiId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BatalhaId", "HeroId");
 
                     b.HasIndex("HeroiId");
 
@@ -136,9 +141,7 @@ namespace EFCore.Repositorio.Migrations
 
                     b.HasOne("EFCore.Dominio.Heroi", "Heroi")
                         .WithMany("HeroisBatalhas")
-                        .HasForeignKey("HeroiId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HeroiId");
                 });
 
             modelBuilder.Entity("EFCore.Dominio.IdentidadeSecreta", b =>
